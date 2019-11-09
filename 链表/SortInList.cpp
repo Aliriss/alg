@@ -23,7 +23,8 @@ int main(){
 	L=createList(L);
 	printf("You get a list: ");
 	print(L);
-	L=sortInStruct(L);
+//	L=sortInStruct(L);
+	L=sortInData(L);
 	printf("\nSort: ");
 	print(L);
 	return 0;
@@ -85,22 +86,23 @@ LinkList sortInData(LinkList L){
 LinkList sortInStruct(LinkList L){
 	LinkList p=L->next,q=NULL;  //loop pointer
 	LinkList minPointer=NULL;  //Use to mark the min-data-structure
-	LinkList first=(LinkList)malloc(sizeof(Node));     //Use to become the bridge to change two struct
+	Node first;     //Use to become the bridge to change two struct
 	while(p->next !=NULL){
 		q=p->next;
+		minPointer=q;
+		int min = p->data;
 		while(q !=NULL){
-			if((p->data) > (q->data)){
+			if((q->data) < min){
 				minPointer=q; 
 			}
 			q=q->next;
 		}
-		if(minPointer!=NULL){
-			*first=*minPointer;
+		if(minPointer!=p){
+			first = *minPointer;
 			*minPointer=*p;
-			minPointer->next=first->next;
-			first->next=p->next;
-			*p=*first;
-			minPointer=NULL;
+			minPointer->next=first.next;
+			first.next=p->next;
+			*p=first;
 		}
 		p=p->next;
 	}

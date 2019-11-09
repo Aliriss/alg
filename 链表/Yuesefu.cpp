@@ -6,7 +6,7 @@ typedef struct Node{
 	ElemType m;
 	struct Node *next;
 }Node, *LinkList;
-LinkList CreateList_L2(LinkList L, int n,int position);
+LinkList createList(LinkList L, int n,int position);
 void print(LinkList L);                //print exit-element in list
 LinkList play(LinkList L,int m);
 int main(){
@@ -16,7 +16,7 @@ int main(){
 	int n,i=1;
 	while((scanf("%d",&n))){
 		getchar();
-		L=CreateList_L2(L,n,i++);
+		L=createList(L,n,i++);
 	}
 	printf("You get a list: ");
 	print(L);
@@ -28,13 +28,13 @@ int main(){
 	
 	printf("\nPlease input the m: ");
 	int m;
-	getchar();
+	fflush(stdin);
 	scanf("%d",&m);
-	L=play(L,m);
+	play(L,m);
 	return 0;
 }
 
-LinkList CreateList_L2(LinkList L,int n,int position){
+LinkList createList(LinkList L,int n,int position){
 	LinkList p=L;
 	int x=position;
 	while(position){
@@ -64,20 +64,21 @@ LinkList play(LinkList L,int m){
 	}
 	prep=p;p=L;
 	for(i=1;i<=m;i++){
+		if((prep->order)==(p->order)){
+			printf("\nThe victor is: %d",p->order);
+			break;
+		}
 		if(i==m){
 			prep->next=p->next;
-			printf("%d ",p->order);
+			//printf("%d ",p->order);
 			m=p->m;
-			prep=p;
+			//prep=p;
 			free(p);
 			p=prep->next;
 			i=0;
 		}else{
 			prep=p;
 			p=p->next;
-		}
-		if((prep->order)==(p->order)){
-			break;
 		}
 	}
 	return prep;

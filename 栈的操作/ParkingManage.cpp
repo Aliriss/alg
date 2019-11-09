@@ -45,7 +45,7 @@ int main(){
 			if(!isFullStack(S) && isEmptyQue(street)){
 				push(S,arrivalCar);
 				j++;
-				printf("\nNo%d in the parking lot(position: %d).",arrivalCar.num,j);
+				printf("\nNo%d in the parking lot(position: %d), Arrival time: %d.\n",arrivalCar.num,j,arrivalCar.time);
 			}else{
 				insertQue(street,arrivalCar);
 				flag=1;
@@ -53,6 +53,7 @@ int main(){
 			}
 		}
 		else if(ch=='D'){
+			//printf("\narrivalcar: %d",arrivalCar.num);
 			if( inStack(S,arrivalCar.num) ){  //if car in stack, the car behind him left the station to let him leave.
 				departureCar=pop(S);
 				while(departureCar.num!=arrivalCar.num){  //find the car want to leave.
@@ -60,10 +61,12 @@ int main(){
 					departureCar=pop(S);
 				}
 				printf("\nNo%d car has left.",departureCar.num);
-				printf("\n\tStay %d time, need pay $%.2f",arrivalCar.time-departureCar.time,1.1);
+				printf("\n\tStay %d time, need pay $%.2f\n",arrivalCar.time-departureCar.time,1.0*(arrivalCar.time-departureCar.time));
 				j--;
 				if(!isEmptyStack(S2)) push(S,pop(S2));   //The car helped that car into paarking lot.(just ont car).
+				flag=0;
 			}else{
+				//printf("dsjlafkjl");
 				remove(street,arrivalCar);
 				flag=0;
 			}
@@ -73,9 +76,9 @@ int main(){
 			departureCar=outQue(street);
 			push(S,departureCar);
 			i--;j++;
-			printf("\nNo%d drive from street to parking lot(position: %d).",departureCar.num,j);
+			//printf("\nNo%d drive from street to parking lot(position: %d).\n",departureCar.num,j);
 		}else if(flag==1){
-			printf("\nNo%d parking the %d place in the street.",arrivalCar.num,i);
+			printf("\nNo%d parking in the street(position: %d), Arrival time: %d.\n",arrivalCar.num,i,arrivalCar.time);
 		}
 		//fflush(stdin);
 		getchar();
@@ -162,13 +165,15 @@ void remove(QUE &street,Car car){
 	}
 }
 bool inStack(Stack S,int num){
+//	printf("\n you in in stack.");
 	Car *p=S.base;
 	int i=2;
-	while(i--){
+	while(i>0){
 		if(p->num==num) {
-			//printf("\nNo%d in parking lot.",p->num);
 			return true;
 		}
+		p++;
+		i--;
 	}
 	return false;
 }
